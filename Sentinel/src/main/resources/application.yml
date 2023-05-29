@@ -1,0 +1,41 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: sentinel-demo1
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+
+    sentinel:
+      transport:
+        #        dashboard: 127.0.0.1:9100  #控制台地址
+        port: 8719
+        dashboard: localhost:8080
+      eager: true   #取消懒加载
+      web-context-unify: false
+      datasource:
+        flow-datasource:  #可以自定义
+          nacos:
+            ### nacos连接地址
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            username: ${spring.cloud.nacos.discovery.username}
+            password: ${spring.cloud.nacos.discovery.password}
+            ## nacos连接的分组
+            group-id: SENTINEL-GROUP
+            ###路由存储规则
+            rule-type: flow # 还有：degrade、authority、param-flow
+            ### 读取配置文件的 data-id
+            data-id: ${spring.application.name}-flow-rules
+            ###  读取文件类型为json
+            data-type: json
+            namespace: c4a104f8-5df9-42da-b100-8c22f3d817be
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

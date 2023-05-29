@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.businessservice.mapper.TradesMapper">
+    <resultMap type="com.example.feignapi.entity.Trade" id="Trade">
+<!--        column是数据库名称，property就是java属性名称-->
+<!--        dept.id，也就是子对象的java属性名称-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="order_id" property="orderId"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="required_number" property="num"/>
+        <result column="remaining_quantity" property="remainingQuantity"/>
+    </resultMap>
+    <select id="printTrades" resultMap="Trade">
+        select o.id,g.name,o.order_id,g.unit_price,o.required_number,g.remaining_quantity from `order_detail` as o LEFT JOIN `goods` as g ON o.goods_id = g.id
+    </select>
+
+</mapper>
